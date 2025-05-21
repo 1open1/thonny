@@ -1,0 +1,80 @@
+
+# Aim:Interfacingof LEDs with Rasberry pi: single led,2 led,multiple,
+
+# single 
+
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+GPIO.setup(40, GPIO.OUT)
+
+try:
+    while True:
+        print("LED ON")
+        GPIO.output(40, GPIO.HIGH)
+        time.sleep(1)
+
+        print("LED OFF")
+        GPIO.output(40, GPIO.LOW)
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    print("\nExiting program")
+    GPIO.cleanup() 
+
+# Two LEDs Blinking Alternately
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+LED1 = 38  # First LED
+LED2 = 40  # Second LED
+
+GPIO.setup(LED1, GPIO.OUT)
+GPIO.setup(LED2, GPIO.OUT)
+
+try:
+    while True:
+        print("LED1 ON, LED2 OFF")
+        GPIO.output(LED1, GPIO.HIGH)
+        GPIO.output(LED2, GPIO.LOW)
+        time.sleep(1)
+
+        print("LED1 OFF, LED2 ON")
+        GPIO.output(LED1, GPIO.LOW)
+        GPIO.output(LED2, GPIO.HIGH)
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    print("\nExiting program")
+    GPIO.cleanup()
+
+# multiple
+
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+LED_PINS = [36, 38, 40]  # Change these pins based on your connections
+
+# Set up all LED pins
+for pin in LED_PINS:
+    GPIO.setup(pin, GPIO.OUT)
+
+try:
+    while True:
+        for pin in LED_PINS:
+            GPIO.output(pin, GPIO.HIGH)
+            print(f"LED on PIN {pin} is ON")
+            time.sleep(0.5)
+            GPIO.output(pin, GPIO.LOW)
+
+except KeyboardInterrupt:
+    print("\nExiting program")
+    GPIO.cleanup()

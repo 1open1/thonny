@@ -1,0 +1,24 @@
+import RPi.GPIO as GPIO
+from time import sleep
+
+ip = 35
+op = 40
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+GPIO.setup(ip, GPIO.IN)
+GPIO.setup(op, GPIO.OUT, initial=0)
+
+print("Started...")
+
+try:
+    while True:
+        if not GPIO.input(ip):
+            GPIO.output(op, 1)
+            print("Sensed")
+            while not GPIO.input(ip):
+                sleep(0.2)
+        else:
+            GPIO.output(op, 0)
+except KeyboardInterrupt:
+    GPIO.cleanup()

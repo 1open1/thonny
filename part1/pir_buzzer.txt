@@ -1,0 +1,33 @@
+# Turning on Buzzer using PIR Sensor
+import RPi.GPIO as gpio  # Import Raspberry Pi GPIO library
+import time  # Import time library
+
+# Define GPIO pins
+sensor = 11  # PIR sensor connected to GPIO 11
+buzzer = 19  # Buzzer connected to GPIO 19
+
+# GPIO Setup
+gpio.setwarnings(False)  # Disable warnings
+gpio.setmode(gpio.BOARD)  # Use BOARD pin numbering
+gpio.setup(sensor, gpio.IN)  # Set PIR sensor as input
+gpio.setup(buzzer, gpio.OUT)  # Set buzzer as output
+gpio.output(buzzer, False)  # Initially turn buzzer OFF
+
+# Initializing PIR Sensor
+print("Initializing PIR sensor...")
+time.sleep(1)  # Wait for the sensor to stabilize
+print("PIR Ready")
+
+try:
+    while True:
+        if gpio.input(sensor):  # If motion is detected
+            gpio.output(buzzer, True)  # Turn ON buzzer
+            print("Motion Detected!")
+            time.sleep(1)  # Wait for 1 second
+        else:
+            gpio.output(buzzer, False)  # Turn OFF buzzer
+            time.sleep(1)  # Wait for 1 second
+
+except KeyboardInterrupt:  # Handle Ctrl+C interruption
+    print("\nExiting... Cleaning up GPIO")
+    gpio.cleanup()  # Reset GPIO settings

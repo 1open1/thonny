@@ -1,0 +1,24 @@
+import Adafruit_DHT
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+GPIO.setwarnings(False)
+GPIO.cleanup()
+
+sensor = Adafruit_DHT.DHT11
+
+pin = 17 # GPIO17 is connected to board P15 ---11 pin
+print ("temp & humd in progress")
+
+try:
+    while(1):
+        humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+        print ("Humidity ="+str(humidity))
+        print ("Temperature ="+str(temperature))
+        time.sleep(2)  
+except KeyboardInterrupt:
+    GPIO.cleanup()
+
+
+

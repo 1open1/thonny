@@ -1,0 +1,34 @@
+import RPi.GPIO as GPIO
+from time import sleep
+
+# Set GPIO mode
+GPIO.setmode(GPIO.BOARD)
+
+# Define relay pins
+relay_pins = [19, 23, 24, 25]
+
+# Set up GPIO pins as output
+for pin in relay_pins:
+    GPIO.setup(pin, GPIO.OUT)
+
+try:
+    while True:
+        # Turn all relays ON
+        GPIO.output(19, GPIO.HIGH)
+        GPIO.output(23, GPIO.HIGH)
+        GPIO.output(24, GPIO.HIGH)
+        GPIO.output(25, GPIO.HIGH)
+
+        sleep(5)  # Wait for 5 seconds
+
+        # Turn all relays OFF
+        GPIO.output(19, GPIO.LOW)
+        GPIO.output(23, GPIO.LOW)
+        GPIO.output(24, GPIO.LOW)
+        GPIO.output(25, GPIO.LOW)
+
+        sleep(5)  # Wait for 5 seconds
+
+except KeyboardInterrupt:
+    print("Program terminated")
+    GPIO.cleanup()  # Reset GPIO settings

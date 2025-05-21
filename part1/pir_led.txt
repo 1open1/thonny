@@ -1,0 +1,31 @@
+import RPi.GPIO as gpio  # Import Raspberry Pi GPIO library
+import time  # Import time library
+
+# Define GPIO pins
+sensor = 11  # PIR sensor connected to GPIO 11
+led = 19  # LED connected to GPIO 19
+
+# GPIO Setup
+gpio.setwarnings(False)  # Disable warnings
+gpio.setmode(gpio.BOARD)  # Use BOARD pin numbering
+gpio.setup(sensor, gpio.IN)  # Set PIR sensor as input
+gpio.setup(led, gpio.OUT)  # Set LED as output
+gpio.output(led, False)  # Initially turn LED OFF
+
+# Initializing PIR Sensor
+print("Initializing PIR sensor...")
+time.sleep(12)  # Wait for 12 seconds for the sensor to stabilize
+print("PIR Ready")
+
+try:
+    while True:
+        if gpio.input(sensor):  # If motion is detected
+            gpio.output(led, True)  # Turn ON LED
+            time.sleep(1)  # Wait for 1 second
+        else:
+            gpio.output(led, False)  # Turn OFF LED
+            time.sleep(1)  # Wait for 1 second
+
+except KeyboardInterrupt:  # Handle Ctrl+C interruption
+    print("\nExiting... Cleaning up GPIO")
+    gpio.cleanup()  # Reset GPIO settings
